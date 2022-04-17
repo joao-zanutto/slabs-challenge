@@ -7,12 +7,14 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "./RandomNumberGenerator.sol";
+import "./ERC20Implementation.sol";
 
 contract ERC721Implementation is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
-
     RandomNumberGenerator private rand;
+    ERC20Implementation private token;
+    uint private price = 15 ether;
 
     struct Monster {
         uint256 id;
@@ -22,26 +24,27 @@ contract ERC721Implementation is ERC721URIStorage {
 
     mapping(address => Monster[]) private _monstersByOwner;
 
-    constructor(address _randAddress) ERC721("LABMONSTER", "LBM") {
+    constructor(address _randAddress, address _tokenAddress)
+        ERC721("LABMONSTER", "LBM")
+    {
         rand = RandomNumberGenerator(_randAddress);
+        token = ERC20Implementation(_tokenAddress);
     }
 
-    function awardItem(address player) public returns (uint256) {
+    function awardItem() public returns (uint256) {
+        require(token.balanceOf(msg.sender) >= price, "Not enough tokens");
+        require(
+            token.allowance(msg.sender, address(this)) >= price,
+            "Not enough allowance"
+        );
+
+        token.transferFrom(msg.sender, address(this), price);
+
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
-        uint256[2] memory randomValues = rand.getUserRandomNumbers(player);
-
-        Monster memory monster = Monster(
-            newItemId,
-            uint8(randomValues[1]),
-            _parseUrl(randomValues[0])
-        );
-        _monstersByOwner[player].push(monster);
-
-        rand.resetUserRequest(player);
-
-        _mint(player, newItemId);
-        _setTokenURI(newItemId, _generateTokenUri(monster));
+        string memory tokenUri = _generateMonster(msg.sender, newItemId);
+        _mint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenUri);
 
         return newItemId;
     }
@@ -52,6 +55,24 @@ contract ERC721Implementation is ERC721URIStorage {
         returns (Monster[] memory)
     {
         return _monstersByOwner[player];
+    }
+
+    function _generateMonster(address player, uint256 id)
+        internal
+        returns (string memory)
+    {
+        uint256[2] memory randomValues = rand.getUserRandomNumbers(player);
+
+        Monster memory monster = Monster(
+            id,
+            uint8(randomValues[1]),
+            _parseUrl(randomValues[0])
+        );
+        _monstersByOwner[player].push(monster);
+
+        rand.resetUserRequest(player);
+
+        return _generateTokenUri(monster);
     }
 
     function _generateTokenUri(Monster memory monster)

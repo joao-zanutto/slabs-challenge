@@ -98,7 +98,7 @@ contract ERC721Implementation is ERC721URIStorage {
 
     function _parseUrl(uint256 avatarId) internal pure returns (string memory) {
         string
-            memory prefix = "https://ipfs.io/ipfs/QmRwwu7otcPitjzrjrqWzuZyivPkusAAP6RYqwjX4dhcxN?filename=monster-";
+            memory prefix = "https://ipfs.io/ipfs/QmZWzAUMs8G7Bp9a1w8Kawu8UR71d5mipkyD9f49hsgHm3/monster-";
         string memory suffix = ".png";
         return
             string(

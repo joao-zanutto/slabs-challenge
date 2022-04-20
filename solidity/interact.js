@@ -17,13 +17,14 @@ var wallet = new ethers.Wallet(privateKey, provider);
 var contract = new ethers.Contract(address, abi.abi, wallet);
 const generateRandom = async function () {
   console.log("Generating random number...");
-  await contract.getRandomNumber();
+  //await contract.getRandomNumber();
   console.log("Getting user numbers...");
   var randNum = 0;
   //await contract.resetUserRequest(wallet.address);
-  while (randNum == 0) {
-    randNum = await contract.getUserRandomNumbers(wallet.address);
-  }
+  //while (randNum == 0) {
+  //  randNum = await contract.getUserRandomNumbers(wallet.address);
+  //}
+  randNum = await contract.getUserRandomNumbers(wallet.address);
   console.log("Random number: " + randNum);
 };
 

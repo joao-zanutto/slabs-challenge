@@ -16,6 +16,8 @@ contract ERC721Implementation is ERC721URIStorage {
     ERC20Implementation private token;
     uint private price = 15 ether;
 
+    event MonsterCreated(address indexed owner, uint256 indexed tokenId);
+
     struct Monster {
         uint256 id;
         uint8 powerLevel;
@@ -45,6 +47,8 @@ contract ERC721Implementation is ERC721URIStorage {
         string memory tokenUri = _generateMonster(msg.sender, newItemId);
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, tokenUri);
+
+        emit MonsterCreated(msg.sender, newItemId);
 
         return newItemId;
     }

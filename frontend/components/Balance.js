@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 export default function MonsterGallery({ erc20Contract, userAddress }) {
   const [balance, setBalance] = useState(undefined);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     async function getBalance() {
@@ -11,11 +12,13 @@ export default function MonsterGallery({ erc20Contract, userAddress }) {
           await erc20Contract.balanceOf(userAddress)
         );
         setBalance(balance);
+
+        erc20Contract.on("Transfer", (from, to, value) => setRefresh(!refresh));
       }
     }
 
     getBalance();
-  }, [erc20Contract]);
+  }, [erc20Contract, refresh]);
 
   return <p>SLBs Balance: {balance}</p>;
 }

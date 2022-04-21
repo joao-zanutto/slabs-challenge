@@ -7,6 +7,8 @@ contract RandomNumberGenerator is VRFConsumerBase {
     bytes32 internal keyHash;
     uint256 internal fee;
 
+    event RandomGenerated(address indexed user, uint256[2] values);
+
     mapping(address => uint256[2]) randomNumbersByUser;
     mapping(bytes32 => address) requestIdToUser;
 
@@ -54,6 +56,8 @@ contract RandomNumberGenerator is VRFConsumerBase {
         uint256[] memory randomNumbers = expand(randomness, 2);
         randomNumbersByUser[user][0] = (randomNumbers[0] % 5) + 1; // Monster avatar
         randomNumbersByUser[user][1] = (randomNumbers[1] % 100) + 1; // Monster power level
+
+        emit RandomGenerated(user, randomNumbersByUser[user]);
     }
 
     function resetUserRequest(address _user) external {

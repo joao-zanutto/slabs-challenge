@@ -16,16 +16,22 @@ export default function MonsterAcademy({
 }) {
   const [randNumbers, setRandNumbers] = useState(undefined);
   const [randStatus, setRandStatus] = useState(undefined);
+  const [requestRefresh, setRequestRefresh] = useState(false);
 
   useEffect(() => {
     async function checkRandomStatus() {
       try {
         if (typeof randContract !== "undefined") {
+          randContract.on("RandomGenerated", (owner, values) => {
+            console.log("RANDOM GENERATED" + values);
+            setRequestRefresh(!requestRefresh);
+          });
           const numbers = await randContract.getUserRandomNumbers(userAddress);
           setRandNumbers([numbers[0].toNumber(), numbers[1].toNumber()]);
           setRandStatus(0);
         }
       } catch (e) {
+        console.log(e);
         if (e.reason.includes("Random numbers not yet fulfilled")) {
           setRandStatus(1);
         }
@@ -36,14 +42,17 @@ export default function MonsterAcademy({
     }
 
     checkRandomStatus();
-  }, [randContract]);
+  }, [randContract, requestRefresh]);
 
   const mintMonster = async function () {
-    await erc20Contract.approve(
+    const allowance = await erc20Contract.approve(
       erc721Contract.address,
       ethers.utils.parseEther("15")
     );
-    await erc721Contract.awardItem();
+    await allowance.wait();
+    const mint = await erc721Contract.awardItem();
+    await mint.wait();
+    setRandStatus(2);
   };
 
   const generateRandom = async function () {
@@ -56,11 +65,7 @@ export default function MonsterAcademy({
       <Image
         height={200}
         width={400}
-        src={
-          typeof randNumbers !== "undefined"
-            ? assembleUrl(randNumbers[0])
-            : questionUrl
-        }
+        src={randStatus === 0 ? assembleUrl(randNumbers[0]) : questionUrl}
       />
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">Monster #?</div>
@@ -93,8 +98,7 @@ export default function MonsterAcademy({
       </div>
       <div className="px-6 pt-4 pb-2">
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          POWER LEVEL{" "}
-          {typeof randNumbers !== "undefined" ? randNumbers[1] : " ?"}
+          POWER LEVEL {randStatus === 0 ? randNumbers[1] : " ?"}
         </span>
       </div>
     </div>

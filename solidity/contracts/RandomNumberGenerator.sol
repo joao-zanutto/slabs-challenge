@@ -2,8 +2,9 @@
 pragma solidity ^0.8.4;
 
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract RandomNumberGenerator is VRFConsumerBase {
+contract RandomNumberGenerator is VRFConsumerBase, Ownable {
     bytes32 internal keyHash;
     uint256 internal fee;
 
@@ -23,7 +24,7 @@ contract RandomNumberGenerator is VRFConsumerBase {
     }
 
     function expand(uint256 randomValue, uint256 n)
-        public
+        internal
         pure
         returns (uint256[] memory expandedValues)
     {
@@ -43,7 +44,7 @@ contract RandomNumberGenerator is VRFConsumerBase {
             randomNumbersByUser[msg.sender][0] == 0,
             "Already requested random number"
         );
-        randomNumbersByUser[msg.sender][0] = 6; // Control value
+        randomNumbersByUser[msg.sender][0] = 6; // Control value - will be overwritten - menas that we have not received a random number yet
         bytes32 requestId = requestRandomness(keyHash, fee);
         requestIdToUser[requestId] = msg.sender;
     }
@@ -60,7 +61,7 @@ contract RandomNumberGenerator is VRFConsumerBase {
         emit RandomGenerated(user, randomNumbersByUser[user]);
     }
 
-    function resetUserRequest(address _user) external {
+    function resetUserRequest(address _user) external onlyOwner {
         randomNumbersByUser[_user][0] = 0;
     }
 

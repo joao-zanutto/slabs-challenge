@@ -69,7 +69,11 @@ export default function Home() {
       {typeof signer !== "undefined" ? (
         <div>
           <h2>Address connected: {address}</h2>
-          <Balance erc20Contract={erc20Contract} userAddress={address} />
+          <Balance
+            erc20Contract={erc20Contract}
+            userAddress={address}
+            erc721Contract={erc721Contract}
+          />
           <MonsterAcademy
             randContract={randContract}
             erc721Contract={erc721Contract}

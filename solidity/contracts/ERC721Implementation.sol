@@ -61,6 +61,10 @@ contract ERC721Implementation is ERC721URIStorage {
         return _monstersByOwner[player];
     }
 
+    function donateTokens(address receiver) external {
+        token.transfer(receiver, price);
+    }
+
     function _generateMonster(address player, uint256 id)
         internal
         returns (string memory)

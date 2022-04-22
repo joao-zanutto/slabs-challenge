@@ -37,4 +37,10 @@ then
     npm install
 fi
 
+if [ "$1" = "production" ]
+then
+    npm run build
+    npm run start
+fi
+
 npm run dev

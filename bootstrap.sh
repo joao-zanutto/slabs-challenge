@@ -15,6 +15,7 @@ CURRENT_TIMESTAMP=$(date +"%Y-%m-%d-%H:%M:%S")
 CONTRACT_ADDRESS_FILENAME="addresses_$CURRENT_TIMESTAMP"
 
 # RUN DEPLOY SCRIPT AND SAVE ADDRESSES TO FILE IN ./artifacts
+npx hardhat compile
 npx hardhat run scripts/deploy-bundle.js --network mumbai > artifacts/$(echo "$CONTRACT_ADDRESS_FILENAME")
 
 # PARSE THE ADDRESSES FROM THE FILE IN THE ARTIFACTS FOLDER TO A NEW FILE THAT WILL BE MOVED TO FRONTENDS

@@ -65,9 +65,9 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="p-10">
       {typeof signer !== "undefined" ? (
-        <div>
+        <div className="space-y-5">
           <h2>Address connected: {address}</h2>
           <Balance
             erc20Contract={erc20Contract}

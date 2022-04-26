@@ -70,20 +70,20 @@ export default function MonsterAcademy({
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">Monster #?</div>
       </div>
-      <div>
+      <div className="px-14">
         {randStatus === 0 ? (
           <button
             onClick={mintMonster}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-4"
           >
-            Pay 15 SLBs and Mint
+            Pay 15 SLBs and Mint Monster
           </button>
         ) : randStatus === 1 ? (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-4"
             disabled={true}
           >
-            Generating values...
+            Generating your Monster...
           </button>
         ) : randStatus === 2 ? (
           <button

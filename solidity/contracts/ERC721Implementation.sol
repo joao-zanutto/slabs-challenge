@@ -33,7 +33,7 @@ contract ERC721Implementation is ERC721URIStorage {
         token = ERC20Implementation(_tokenAddress);
     }
 
-    function awardItem() public returns (uint256) {
+    function awardItem() external returns (uint256) {
         require(token.balanceOf(msg.sender) >= price, "Not enough tokens");
         require(
             token.allowance(msg.sender, address(this)) >= price,

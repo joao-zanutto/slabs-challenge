@@ -1,5 +1,13 @@
 # Starter Labs - Blockchain Developer Challenge
 
+## Running tests
+
+There are implemented tests to verify that the ERC20 supply is correct and that ERC721 tokens are correctly minted and owned based on a payment fee. Tests on the `RandomNumberGenerator` were not implemented due to the complexity needed to deploy the chainlink environment. Run tests with:
+
+```
+npx hardhat test
+```
+
 ## Pre-requisites
 
 - Unix/Linux system (or terminal with WSL)
@@ -48,6 +56,8 @@ npx run scripts/deploy-bundle.js --network mumbai   # Deploy the contracts
 ```
 
 The deploy script should output the deployed contracts addresses. Paste them in the corresponding fields in the `.contracts.example.js` file located in the `/frontend/config` folder and rename it to `.contracts.js`.
+
+You also need to copy the contract ABIs from `/solidity/artifacts/[CONTRACT_NAME]/[CONTRACT_NAME].json` to the `/frontend/config` folder.
 
 ### Frontend
 

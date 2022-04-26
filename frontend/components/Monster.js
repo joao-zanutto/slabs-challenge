@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Monster({ monster }) {
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg">
+    <div className="rounded overflow-hidden shadow-xl border-2">
       <Image height={200} width={400} src={monster[2]} />
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">

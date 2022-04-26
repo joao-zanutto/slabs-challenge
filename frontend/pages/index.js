@@ -65,35 +65,41 @@ export default function Home() {
   };
 
   return (
-    <div className="p-10">
-      {typeof signer !== "undefined" ? (
-        <div className="space-y-5">
-          <h2>Address connected: {address}</h2>
-          <Balance
-            erc20Contract={erc20Contract}
-            userAddress={address}
-            erc721Contract={erc721Contract}
-          />
-          <MonsterAcademy
-            randContract={randContract}
-            erc721Contract={erc721Contract}
-            erc20Contract={erc20Contract}
-            userAddress={address}
-          />
-          <h2 className="font-bold text-xl mb-2"> Monster Gallery </h2>
-          <MonsterGallery
-            erc721Contract={erc721Contract}
-            userAddress={address}
-          />
-        </div>
-      ) : (
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          onClick={requestAccess}
-        >
-          Connect with Metamask
-        </button>
-      )}
+    <div className="">
+      <div className="flex h-screen">
+        {typeof signer !== "undefined" ? (
+          <div className="space-y-5 p-4">
+            <h2>Address connected: {address}</h2>
+            <Balance
+              erc20Contract={erc20Contract}
+              userAddress={address}
+              erc721Contract={erc721Contract}
+            />
+            <div className="flex">
+              <MonsterAcademy
+                randContract={randContract}
+                erc721Contract={erc721Contract}
+                erc20Contract={erc20Contract}
+                userAddress={address}
+              />
+            </div>
+            <h2 className="font-bold text-xl mb-2"> Monster Gallery </h2>
+            <MonsterGallery
+              erc721Contract={erc721Contract}
+              userAddress={address}
+            />
+          </div>
+        ) : (
+          <div className="m-auto">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={requestAccess}
+            >
+              Connect with Metamask
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

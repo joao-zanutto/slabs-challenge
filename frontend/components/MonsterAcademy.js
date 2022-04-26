@@ -61,40 +61,42 @@ export default function MonsterAcademy({
   };
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg">
+    <div className="max-w-sm rounded overflow-hidden shadow-lg border-2 m-auto">
       <Image
         height={200}
         width={400}
         src={randStatus === 0 ? assembleUrl(randNumbers[0]) : questionUrl}
       />
-      <div className="px-6 py-4">
+      <div className="px-6 py-2">
         <div className="font-bold text-xl mb-2">Monster #?</div>
       </div>
-      <div className="px-14">
-        {randStatus === 0 ? (
-          <button
-            onClick={mintMonster}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-4"
-          >
-            Pay 15 SLBs and Mint Monster
-          </button>
-        ) : randStatus === 1 ? (
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-4"
-            disabled={true}
-          >
-            Generating your Monster...
-          </button>
-        ) : randStatus === 2 ? (
-          <button
-            onClick={generateRandom}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-4"
-          >
-            Generate your random Monster
-          </button>
-        ) : (
-          <p>Loading data...</p>
-        )}
+      <div className="flex h-10">
+        <div className="m-auto">
+          {randStatus === 0 ? (
+            <button
+              onClick={mintMonster}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-4"
+            >
+              Pay 15 SLBs and Mint Monster
+            </button>
+          ) : randStatus === 1 ? (
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-4"
+              disabled={true}
+            >
+              Generating your Monster...
+            </button>
+          ) : randStatus === 2 ? (
+            <button
+              onClick={generateRandom}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-4"
+            >
+              Generate your random Monster
+            </button>
+          ) : (
+            <p>Loading data...</p>
+          )}
+        </div>
       </div>
       <div className="px-6 pt-4 pb-2">
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">

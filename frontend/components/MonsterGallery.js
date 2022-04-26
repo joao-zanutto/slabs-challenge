@@ -28,13 +28,15 @@ export default function MonsterGallery({ erc721Contract, userAddress }) {
   }, [monsters]);
 
   return (
-    <div>
-      <span>
-        {totalPower == 0 && typeof erc721Contract === "undefined"
-          ? "Loading..."
-          : "ACCOUNT POWER LEVEL " + totalPower}
-      </span>
-      <div className="flex">
+    <div className="pb-10">
+      <div className="py-2">
+        <span>
+          {totalPower == 0 && typeof erc721Contract === "undefined"
+            ? "Loading..."
+            : "ACCOUNT POWER LEVEL " + totalPower}
+        </span>
+      </div>
+      <div className="flex space-x-4">
         {monsters.map((monster, id) => (
           <Monster key={id} monster={monster} />
         ))}

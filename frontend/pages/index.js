@@ -66,9 +66,9 @@ export default function Home() {
 
   return (
     <div className="">
-      <div className="flex h-screen">
+      <div className="flex h-screen w-screen">
         {typeof signer !== "undefined" ? (
-          <div className="space-y-5 p-4">
+          <div className="space-y-5 p-4 w-screen">
             <h2>Address connected: {address}</h2>
             <Balance
               erc20Contract={erc20Contract}
